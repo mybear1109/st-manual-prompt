@@ -1,13 +1,12 @@
 import streamlit as st
 from llama_index.llms.huggingface_api import HuggingFaceInferenceAPI 
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.core import Settings,StorageContext,load_index_from_storage
+from llama_index.core import Settings
 import os
-from huggingface_hub import snapshot_download
 
 def get_huggingface_token():
     """📌 Hugging Face API 토큰 가져오기"""
-    token = st.secrets.get("HUGGINGFACE_API_TOKEN")
+    token = os.environ.get("HUGGINGFACE_API_TOKEN") or st.secrets.get("HUGGINGFACE_API_TOKEN")
     if not token:
         st.error("🚨 HUGGINGFACE_API_TOKEN 환경 변수가 설정되지 않았습니다. .streamlit/secrets.toml에 추가해주세요.")
         return None
@@ -78,25 +77,6 @@ def main():
 
     else:
         st.warning("🚨 모델이 로드되지 않았습니다. API 토큰을 확인하세요.")
-
-
-def get_index_from_huggingface():
-    repo_id = repo_id 
-    local_dir = local_dir,
-    repo_type = "dataset",
-    token = token
-
-   
-# 다운로드한 폴더를 메모리에 올린다.
-    storage_context = StorageContext.from_defaults(persist_dir = local_dir)
-
-    index = load_index_from_storage(storage_context)
-
- def main() : 
-    # 1. 사용할 모델 셋팅
-    # 2. 사용할 토그나이저 셋팅 : embed_model
-    initialize_models()   
-
 
 if __name__ == '__main__':
     main()
