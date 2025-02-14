@@ -6,8 +6,13 @@ import os
 
 def get_huggingface_token():
     """📌 Hugging Face API 토큰 가져오기"""
-    token = os.environ.get("HUGGINGFACE_API_TOKEN") or st.secrets.get("HUGGINGFACE_API_TOKEN")
-    if not token:
+    # 실서버에서는 os의 환경변수에 셋팅된다. 따라서 환경변수 읽어오는 코드로
+    # 작성해야 한다. 
+    token  = os.environ.get("HUGGINGFACE_API_TOKEN") 
+    # 토큰이 환견변수에 없으면, 로컬에서 동작하니까 로컬에서 읽어오도록한다. 
+    if token is None:
+        token =  st.secrets.get("HUGGINGFACE_API_TOKEN")
+    elif not token:
         st.error("🚨 HUGGINGFACE_API_TOKEN 환경 변수가 설정되지 않았습니다. .streamlit/secrets.toml에 추가해주세요.")
         return None
     return token
