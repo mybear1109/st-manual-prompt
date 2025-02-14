@@ -1,5 +1,8 @@
 import streamlit as st
-from llama_index.llms.huggingface_api import HuggingFaceInferenceAPI 
+try:
+    from llama_index.llms.huggingface_api import HuggingFaceInferenceAPI
+except ImportError:
+    from llama_index.llms.huggingface import HuggingFaceInferenceAPI
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core import Settings
 import os
